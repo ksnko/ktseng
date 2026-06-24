@@ -1,0 +1,91 @@
+/* ============================================================
+   COLOR — cool & clean. Paper white, cool-slate ink, electric
+   indigo hero, one brighter azure pop for playful moments.
+   Base ramps first, semantic aliases at the bottom.
+   ============================================================ */
+
+:root {
+  /* ---- Cool slate neutral ramp (the structural backbone) ---- */
+  --slate-950: #0B0D13;
+  --slate-900: #14171F;
+  --slate-800: #1E222C;
+  --slate-700: #2C313D;
+  --slate-600: #444B59;
+  --slate-500: #5E6675;
+  --slate-400: #828A99;
+  --slate-300: #AAB2BF;
+  --slate-200: #D3D8E0;
+  --slate-100: #E7EAEF;
+  --slate-50:  #F2F4F7;
+  --paper:     #F7F8FA;   /* app background — cool paper white */
+  --white:     #FFFFFF;
+
+  /* ---- Electric indigo — the hero accent (blue→purple) ---- */
+  --blue-700: #2A1FB0;    /* deep / text-on-tint */
+  --blue-600: #3A2BE6;    /* pressed */
+  --blue-500: #4B3DFF;    /* PRIMARY electric indigo */
+  --blue-400: #7E74FF;
+  --blue-300: #ADA6FF;
+  --blue-100: #DEDCFF;    /* tint surface */
+  --blue-50:  #EEEDFF;    /* faint wash */
+
+  /* ---- Azure — the single playful pop: same family as indigo,
+     lighter and bluer. Used sparingly (dots, underlines, marks) ---- */
+  --azure-600: #1E7FE0;
+  --azure-500: #2E9BFF;    /* playful accent: dots, underlines, marks */
+  --azure-200: #B9DCFF;
+  --azure-50:  #EAF4FF;
+
+  /* ---- Turquoise — candidate alternate pop (under review) ---- */
+  --turquoise-600: #1FA89E;
+  --turquoise-500: #39C5BB;     /* bright turquoise */
+  --turquoise-200: #BDEDE9;
+  --turquoise-50:  #E9F8F7;
+
+  /* ---- Semantic signal colors (cool-tuned) ---- */
+  --green-500: #16A36A;
+  --green-50:  #E6F6EE;
+  --amber-500: #E8920C;   /* rich clean amber (not mustard); carries white text */
+  --amber-50:  #FFF2D9;
+  --red-500:   #E5484D;
+  --red-50:    #FCEBEC;
+
+  /* ============================================================
+     SEMANTIC ALIASES — reference these in product code.
+     ============================================================ */
+
+  /* surfaces / background */
+  --bg:               var(--paper);
+  --surface:          var(--white);
+  --surface-sunken:   var(--slate-50);
+  --surface-inverse:  var(--slate-900);
+  --overlay:          color-mix(in srgb, var(--slate-950) 55%, transparent);
+
+  /* text */
+  --text-primary:     var(--slate-900);
+  --text-secondary:   var(--slate-500);
+  --text-muted:       var(--slate-400);
+  --text-inverse:     var(--white);
+  --text-link:        var(--blue-500);
+
+  /* borders / lines */
+  --border:           var(--slate-200);
+  --border-strong:    var(--slate-300);
+  --border-faint:     var(--slate-100);
+  --hairline:         color-mix(in srgb, var(--slate-900) 8%, transparent);
+
+  /* accent (electric blue) */
+  --accent:           var(--blue-500);
+  --accent-hover:     var(--blue-600);
+  --accent-press:     var(--blue-700);
+  --accent-tint:      var(--blue-50);
+  --accent-tint-2:    var(--blue-100);
+  --on-accent:        var(--white);
+
+  /* pop (azure) */
+  --pop:              var(--azure-500);
+  --pop-tint:         var(--azure-50);
+
+  /* focus ring */
+  --ring:             color-mix(in srgb, var(--blue-500) 45%, transparent);
+}

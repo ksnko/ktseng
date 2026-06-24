@@ -1,0 +1,29 @@
+/* ============================================================
+   SPACING — 4px base grid. Use --space-* for gaps, padding,
+   margins. Layout maxima + gutters at the bottom.
+   ============================================================ */
+
+:root {
+  --space-0:   0px;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-7:   32px;
+  --space-8:   40px;
+  --space-9:   48px;
+  --space-10:  64px;
+  --space-11:  80px;
+  --space-12:  96px;
+  --space-13:  128px;
+  --space-14:  160px;
+
+  /* layout */
+  --container:      1240px; /* @kind spacing */
+  --container-wide: 1480px; /* @kind spacing */
+  --container-prose: 680px; /* @kind spacing */
+  --gutter:         clamp(20px, 5vw, 64px); /* @kind spacing */
+  --section-y:      clamp(64px, 9vw, 128px); /* @kind spacing */
+}

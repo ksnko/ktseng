@@ -1,0 +1,40 @@
+/* ============================================================
+   ELEVATION — corner radii, borders, and a cool-tinted shadow
+   system. Shadows are soft and blue-shifted, never black-muddy.
+   ============================================================ */
+
+:root {
+  /* ---- Corner radii ---- */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-2xl:  32px;
+  --radius-full: 999px;
+
+  /* ---- Border widths ---- */
+  --border-w:      1px; /* @kind other */
+  --border-w-2:    1.5px; /* @kind other */
+  --border-w-bold: 2px; /* @kind other */
+
+  /* ---- Shadows — cool, low, layered. Slate-blue tint. ---- */
+  --shadow-xs:  0 1px 2px rgba(20, 23, 31, 0.06);
+  --shadow-sm:  0 1px 2px rgba(20, 23, 31, 0.06),
+                0 2px 6px rgba(20, 23, 31, 0.05);
+  --shadow-md:  0 2px 4px rgba(20, 23, 31, 0.05),
+                0 8px 20px rgba(28, 42, 90, 0.08);
+  --shadow-lg:  0 4px 8px rgba(20, 23, 31, 0.05),
+                0 18px 40px rgba(28, 42, 90, 0.12);
+  --shadow-xl:  0 8px 16px rgba(20, 23, 31, 0.06),
+                0 32px 64px rgba(28, 42, 90, 0.16);
+
+  /* electric-blue glow for primary/focus emphasis */
+  --shadow-accent: 0 6px 18px color-mix(in srgb, var(--blue-500) 30%, transparent);
+
+  /* inner hairline used on inputs/cards for crispness */
+  --inset-hairline: inset 0 0 0 1px var(--hairline);
+
+  /* focus ring */
+  --focus-ring: 0 0 0 3px var(--ring);
+}

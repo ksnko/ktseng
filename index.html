@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kevin tseng · portfolio</title>
+<script>
+  // ResizeObserver hygiene: deliver all callbacks on the next animation frame
+  // so layout mutations inside callbacks can't trigger the benign-but-noisy
+  // "ResizeObserver loop completed with undelivered notifications" error.
+  (function () {
+    if (typeof ResizeObserver === 'undefined') return;
+    const NativeRO = ResizeObserver;
+    window.ResizeObserver = class extends NativeRO {
+      constructor(cb) {
+        super(function (entries, observer) {
+          requestAnimationFrame(function () { cb(entries, observer); });
+        });
+      }
+    };
+  })();
+  // Belt-and-braces: swallow the notice if it still surfaces (capture phase,
+  // so it's intercepted before any other listener sees it).
+  window.addEventListener('error', function (e) {
+    if (e.message && e.message.indexOf('ResizeObserver loop') !== -1) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    }
+  }, true);
+</script>
+<link rel="stylesheet" href="_ds/ktseng-design-system-087052e6-1751-4ca4-93c7-2cccbfab9ef6/styles.css">
+<style>
+  html, body { background: var(--bg); }
+  #app { min-height: 100vh; display: flex; flex-direction: column; }
+  .screen { flex: 1; }
+  [data-lucide] { display: inline-flex; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--slate-300); border-radius: 10px; border: 3px solid var(--paper); }
+
+  /* mobile nav defaults */
+  .nav-burger { display: none; }
+
+  /* Safe entrance: animates transform only (never opacity), so content is
+     ALWAYS visible even if the animation is paused (hidden/background tab). */
+  @media (prefers-reduced-motion: no-preference) {
+    .kt-reveal { animation: ktRev 560ms var(--rev-ease, var(--ease-emphasis)) both; }
+    @keyframes ktRev {
+      from { transform: translateY(var(--rev-y, 22px)); }
+      to   { transform: translateY(0); }
+    }
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 860px) {
+    .nav-desktop { display: none !important; }
+    .nav-burger { display: inline-flex !important; }
+
+    .hero-split { grid-template-columns: 1fr !important; }
+    .hero-switcher { bottom: 12px; }
+
+    .work-cards { grid-template-columns: 1fr !important; }
+    .photo-strip { grid-template-columns: repeat(3, 1fr) !important; }
+    .apps-grid { grid-template-columns: 1fr !important; }
+    .featured-app { grid-template-columns: 1fr !important; }
+
+    .case-intro { grid-template-columns: 1fr !important; }
+    .case-photos { grid-template-columns: 1fr !important; }
+
+    /* book detail: 3d book moves ABOVE the text and scales down to fit.
+       Grid children are the <Reveal> wrappers, so reorder THOSE, not the
+       inner .book-3d-wrap. */
+    .book-layout { grid-template-columns: 1fr !important; }
+    .book-layout > :last-child { order: -1; }
+    /* Closed book is centered at translateX(0); when it OPENS the gutter sits
+       ~half the scaled book width left of centre, so we glide it right by ~100px
+       on hover/tap. Transition matches the cover's open animation so the shift
+       rides along with it. Verified against a real 3D render. */
+    .book-3d-wrap { transform: translateX(0) !important; transition: transform .8s ease; display: flex; justify-content: center; margin: 0 0 -150px; }
+    .book-3d-wrap:has(.book:hover) { transform: translateX(100px) !important; }
+    .book-3d-wrap .book3d { transform: scale(0.58); transform-origin: top center; }
+    .book-3d-wrap .book3d .align { justify-content: center; }
+    .book-3d-wrap .book3d .align > li { margin-left: auto; margin-right: auto; }
+    /* margin:0 auto strips the <figure>'s default 40px margin AND keeps the
+       auto-centering BookFlip's own <605px media query relies on. Plain
+       margin:0 would override that and shove the book hard-left on phones. */
+    .book-3d-wrap .book3d .book { margin: 0 auto; }
+
+    .about-intro { grid-template-columns: 1fr !important; }
+    .about-contact { grid-template-columns: 1fr !important; }
+    .resume-cols { grid-template-columns: 1fr !important; }
+    .resume-row { grid-template-columns: 110px 1fr !important; gap: 16px !important; }
+
+    .gal-masonry { grid-template-columns: repeat(2, 1fr) !important; }
+    .gal-uniform { grid-template-columns: repeat(2, 1fr) !important; }
+
+    .row-meta { display: none !important; }
+    .work-rows .work-row { grid-template-columns: 110px 1fr !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+  <div id="app-root"></div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="_ds/ktseng-design-system-087052e6-1751-4ca4-93c7-2cccbfab9ef6/_ds_bundle.js"></script>
+
+  <script type="text/babel" src="portfolio/tweaks-panel.jsx?v=31"></script>
+  <script type="text/babel" src="portfolio/shared.jsx?v=41"></script>
+  <script type="text/babel" src="portfolio/SplashScreen.jsx?v=66"></script>
+  <script type="text/babel" src="portfolio/HomeScreen.jsx?v=46"></script>
+  <script type="text/babel" src="portfolio/GalleryScreen.jsx?v=36"></script>
+  <script type="text/babel" src="portfolio/CaseStudyScreen.jsx?v=45"></script>
+  <script type="text/babel" src="portfolio/AppsScreen.jsx?v=48"></script>
+  <script type="text/babel" src="portfolio/BookFlip.jsx?v=31"></script>
+  <script type="text/babel" src="portfolio/AppDetailScreen.jsx?v=56"></script>
+  <script type="text/babel" src="portfolio/AboutScreen.jsx?v=45"></script>
+
+  <script type="text/babel" data-presets="react">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "hero": "splash",
+      "workLayout": "cards",
+      "galleryLayout": "masonry",
+      "motion": "spring",
+      "accent": "#4B3DFF",
+      "transparentNav": true,
+      "showAvailable": false,
+      "texPattern": "dots",
+      "texSize": 3,
+      "texStrength": 20,
+      "texAngle": 45,
+      "texInk": 0.75,
+      "texScope": "video"
+    }/*EDITMODE-END*/;
+
+    function App() {
+      const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+      const [route, setRoute] = React.useState('home');
+      const [caseId, setCaseId] = React.useState('crosshelmet');
+      const [appId, setAppId] = React.useState('tokyo3d');
+      // Splash preloader gates the menu: hidden until the first-load preload
+      // finishes, then fades in. Starts true on a fresh page load (splash is
+      // the default landing); a safety effect clears it if the splash isn't
+      // the active landing so the nav can never get stuck hidden.
+      const [splashLoading, setSplashLoading] = React.useState(() => typeof window !== 'undefined' && !window.__splashShown);
+      const go = (r, arg) => { if (r === 'case' && arg) setCaseId(arg); if (r === 'app' && arg) setAppId(arg); setRoute(r); window.scrollTo({ top: 0 }); };
+
+      React.useEffect(() => {
+        if (!(route === 'home' && t.hero === 'splash')) setSplashLoading(false);
+      }, [route, t.hero]);
+
+      React.useEffect(() => {
+        if (window.lucide) window.lucide.createIcons();
+      });
+
+      // Home uses an overlay (transparent) nav over dark full-bleed landings (splash / full-bleed hero).
+      const overlay = t.transparentNav && route === 'home' && (t.hero === 'splash' || t.hero === 'b');
+      const navPad = 0;
+
+      return (
+        <MotionCtx.Provider value={t.motion}>
+          <div id="app" data-motion={t.motion} style={{ '--pop': t.accent }}>
+            <TopNav route={route} go={go} overlay={overlay} showAvailable={t.showAvailable} hidden={splashLoading} />
+            <main className="screen" style={{ paddingTop: navPad }}>
+              {route === 'home' && (t.hero === 'splash'
+                ? <SplashScreen go={go} topOffset={overlay ? 0 : 67} onLoadingChange={setSplashLoading} texture={{ pattern: t.texPattern, size: t.texSize, strength: t.texStrength, angle: t.texAngle, ink: t.texInk, scope: t.texScope }} />
+                : <HomeScreen go={go} hero={t.hero} setHero={(h) => setTweak('hero', h)} workLayout={t.workLayout} />)}
+              {route === 'work' && <WorkScreen go={go} workLayout={t.workLayout} />}
+              {route === 'gallery' && <GalleryScreen layout={t.galleryLayout} />}
+              {route === 'case' && <CaseStudyScreen go={go} id={caseId} />}
+              {route === 'apps' && <AppsScreen go={go} />}
+              {route === 'app' && <AppDetailScreen go={go} id={appId} />}
+              {route === 'about' && <AboutScreen />}
+            </main>
+            {!(route === 'home' && t.hero === 'splash') && <Footer go={go} />}
+
+            <TweaksPanel>
+              <TweakSection label="Layout" />
+              <TweakRadio label="Landing" value={t.hero}
+                          options={[{ value: 'splash', label: 'Splash (3 panels)' }, { value: 'a', label: 'Editorial' }, { value: 'b', label: 'Full-bleed' }, { value: 'c', label: 'Split' }]}
+                          onChange={(v) => setTweak('hero', v)} />
+              <TweakRadio label="Work grid" value={t.workLayout}
+                          options={[{ value: 'cards', label: 'Cards' }, { value: 'compact', label: 'Compact' }, { value: 'rows', label: 'Rows' }]}
+                          onChange={(v) => setTweak('workLayout', v)} />
+              <TweakRadio label="Gallery" value={t.galleryLayout}
+                          options={[{ value: 'masonry', label: 'Masonry' }, { value: 'uniform', label: 'Uniform' }, { value: 'justified', label: 'Justified' }]}
+                          onChange={(v) => setTweak('galleryLayout', v)} />
+
+              <TweakSection label="Motion" />
+              <TweakRadio label="Reveal" value={t.motion}
+                          options={[{ value: 'calm', label: 'Calm' }, { value: 'spring', label: 'Spring' }, { value: 'off', label: 'Off' }]}
+                          onChange={(v) => setTweak('motion', v)} />
+
+              <TweakSection label="Video texture" />
+              <TweakRadio label="Pattern" value={t.texPattern}
+                          options={[{ value: 'none', label: 'None' }, { value: 'dots', label: 'Dots' }, { value: 'lines', label: 'Lines' }, { value: 'hatch', label: 'Hatch' }]}
+                          onChange={(v) => setTweak('texPattern', v)} />
+              <TweakRadio label="Coverage" value={t.texScope}
+                          options={[{ value: 'video', label: 'Each video' }, { value: 'screen', label: 'Whole screen' }]}
+                          onChange={(v) => setTweak('texScope', v)} />
+              <TweakSlider label="Strength" value={t.texStrength} min={0} max={100} step={5}
+                           onChange={(v) => setTweak('texStrength', v)} />
+              <TweakSlider label="Spacing" value={t.texSize} min={2} max={12} step={1}
+                           onChange={(v) => setTweak('texSize', v)} />
+              <TweakSlider label="Dot / line size" value={t.texInk} min={0.5} max={3} step={0.25}
+                           onChange={(v) => setTweak('texInk', v)} />
+              <TweakSlider label="Rotation" value={t.texAngle} min={0} max={90} step={5}
+                           onChange={(v) => setTweak('texAngle', v)} />
+
+              <TweakSection label="Brand" />
+              <TweakColor label="Pop color" value={t.accent}
+                          options={['#9D4EFF', '#4B3DFF', '#E0457B', '#1FA37A']}
+                          onChange={(v) => setTweak('accent', v)} />
+
+              <TweakSection label="Navigation" />
+              <TweakToggle label="Transparent menu (home)" value={t.transparentNav}
+                           onChange={(v) => setTweak('transparentNav', v)} />
+              <TweakToggle label="“available” badge" value={t.showAvailable}
+                           onChange={(v) => setTweak('showAvailable', v)} />
+            </TweaksPanel>
+          </div>
+        </MotionCtx.Provider>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('app-root')).render(<App />);
+  </script>
+</body>
+</html>

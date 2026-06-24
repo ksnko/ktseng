@@ -1,0 +1,13 @@
+/* ============================================================
+   Webfonts — Kevin Tseng Design System
+   Loaded from Google Fonts CDN (substitution flagged in readme:
+   no licensed font files were supplied). Consumers online get
+   the real faces; self-host by swapping these @import lines for
+   local @font-face rules if offline support is required.
+   ------------------------------------------------------------
+   Space Grotesk  — display + UI    (geometric grotesk, technical)
+   Hanken Grotesk — body            (warm, highly readable)
+   Space Mono     — labels/metadata (typewriter mono, playful)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
