@@ -363,6 +363,29 @@ window.warmVideoBlob = window.warmVideoBlob || function (url) {
 };
 window.videoSrc = window.videoSrc || function (s) { return (window.__videoBlobs && window.__videoBlobs[s]) || s; };
 
+/* Capture a video's first frame into __videoPosters[url] (a data URL), so a
+   cover <video> can use its OWN first frame as the poster — no mismatched
+   still image flashing before playback starts. Draws from the warmed blob
+   (same-origin, so the canvas isn't tainted) when one is available. */
+window.warmVideoPoster = window.warmVideoPoster || function (url) {
+  window.__videoPosters = window.__videoPosters || {};
+  if (!url || window.__videoPosters[url]) return;
+  const v = document.createElement('video');
+  v.muted = true; v.playsInline = true; v.preload = 'auto';
+  const grab = () => {
+    v.removeEventListener('loadeddata', grab);
+    if (window.__videoPosters[url]) return;
+    try {
+      const c = document.createElement('canvas');
+      c.width = v.videoWidth || 16; c.height = v.videoHeight || 9;
+      c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
+      window.__videoPosters[url] = c.toDataURL('image/jpeg', 0.72);
+    } catch (_) { /* tainted/unsupported — skip */ }
+  };
+  v.addEventListener('loadeddata', grab);
+  try { v.src = (window.__videoBlobs && window.__videoBlobs[url]) || url; } catch (_) {}
+};
+
 Object.assign(window, {
   Photo, Wordmark, TopNav, Footer, Eyebrow, MOODS,
   MotionCtx, useMotion, Reveal, BRAND, LINKS,

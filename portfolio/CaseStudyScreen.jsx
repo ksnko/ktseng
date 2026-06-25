@@ -33,13 +33,13 @@ const CASES = {
     overview: 'The UP family of health trackers.\nDesign, prototyping, and packaging on the Jawbone team at fuseproject.',
     meta: [['Role', 'Industrial Designer'], ['Year', '2014'], ['Studio', 'fuseproject, SF'], ['Output', 'UP3 · UP2 · UP Move']],
     sections: [
-      { t: 'UP3 · 2014', body: 'Health-tracking wristband. Design, prototype, and packaging.', images: [
-        J('up3_7.jpg'), J('up3_6.jpg'), J('up3_18.jpg'), J('up3_14.jpg'), J('up3_8.jpg'),
+      { t: 'UP3 · 2014', body: 'Health-tracking wristband. Design, prototype, and packaging.', slideshow: true, images: [
+        J('up3_14.jpg'), J('up3_8.jpg'), J('up3_18.jpg'), J('up3_6.jpg'), J('up3_7.jpg'),
       ] },
-      { t: 'UP2 · 2014', body: 'Health-tracking wristband. Design, prototype, and packaging.', images: [
+      { t: 'UP2 · 2014', body: 'Health-tracking wristband. Design, prototype, and packaging.', slideshow: true, images: [
         J('up2_3.jpg'), J('up2_9.jpg'), J('up2_14.jpg'), J('up2_13.jpg'), J('up2_11.jpg'), J('up2_12.jpg'),
       ] },
-      { t: 'UP Move · 2014', body: 'Miniature step-counter. Design, prototype, and packaging.', images: [
+      { t: 'UP Move · 2014', body: 'Miniature step-counter. Design, prototype, and packaging.', slideshow: true, images: [
         J('move_brand1.jpg'), J('move_product2.jpg'), J('move_0.jpg'), J('move_product3.jpg'), J('move_brand3.jpg'), J('move_product9.jpg'), J('move_product6.jpg'),
       ] },
     ],

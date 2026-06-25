@@ -481,7 +481,7 @@ function SplashScreen({ go, topOffset = 67, texture, onLoadingChange }) {
     if (window.warmVideoBlob) PANELS.forEach(p => p.video && window.warmVideoBlob(p.video));
     // Also warm any project cover videos (e.g. CrossHelmet's tile video) so the
     // Work tile and case-study hero play instantly from memory.
-    if (window.warmVideoBlob) (window.PROJECTS || []).forEach(p => p.video && window.warmVideoBlob(p.video));
+    if (window.warmVideoBlob) (window.PROJECTS || []).forEach(p => p.video && window.warmVideoBlob(p.video).then(() => window.warmVideoPoster && window.warmVideoPoster(p.video)));
 
     return () => { cancelled = true; };
   }, [loading]);

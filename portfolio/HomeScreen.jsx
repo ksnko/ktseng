@@ -187,7 +187,7 @@ function Cover({ p, i, hoverZoom }) {
       {p.video ? (
         // A project with a cover video plays it muted/looping in place; the
         // first gallery thumb is the poster so it's never blank while loading.
-        <video src={window.videoSrc ? window.videoSrc(p.video) : p.video} poster={thumb(gallery[0])} autoPlay loop muted playsInline preload="auto"
+        <video src={window.videoSrc ? window.videoSrc(p.video) : p.video} poster={(window.__videoPosters || {})[p.video] || thumb(gallery[0])} autoPlay loop muted playsInline preload="auto"
           onLoadedMetadata={(e) => { const v = e.target; if (/jawboneup\.webm/i.test(p.video || '') && isFinite(v.duration) && v.currentTime < 0.05) { try { v.currentTime = v.duration * 0.1; } catch (_) {} } }}
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block',
             transform: hoverZoom ? 'scale(1.05)' : 'none', transition: 'transform 500ms var(--ease-out)' }} />
