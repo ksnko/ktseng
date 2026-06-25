@@ -39,6 +39,8 @@
 
   /* mobile nav defaults */
   .nav-burger { display: none; }
+  .topnav-blur { display: none; }
+  .topnav-scrim { display: none; }
 
   /* Safe entrance: animates transform only (never opacity), so content is
      ALWAYS visible even if the animation is paused (hidden/background tab). */
@@ -54,6 +56,12 @@
   @media (max-width: 860px) {
     .nav-desktop { display: none !important; }
     .nav-burger { display: inline-flex !important; }
+
+    /* mobile: the splash overlay menu is fully transparent (no tint, border, or blur) */
+    .topnav--overlay { background: transparent !important; border-bottom: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+    /* ...with a gradient blur layer instead: full blur at top, fading to 0 at the bottom */
+    .topnav--overlay .topnav-blur { display: block; }
+    .topnav--overlay .topnav-scrim { display: block; }
 
     .hero-split { grid-template-columns: 1fr !important; }
     .hero-switcher { bottom: 12px; }
@@ -139,17 +147,82 @@
       "texScope": "video"
     }/*EDITMODE-END*/;
 
+    // ---- hash-slug routing ---------------------------------------------
+    // Friendly URL slugs for each view: ktseng.com/#design, /#crosshelmet, etc.
+    // Slugs must stay unique across routes, case studies, and apps. Add new
+    // entries here as pages are added.
+    const SLUGS = {
+      design: { route: 'work' },
+      ai: { route: 'apps' },
+      moments: { route: 'gallery' },
+      about: { route: 'about' },
+      crosshelmet: { route: 'case', id: 'crosshelmet' },
+      mobility: { route: 'case', id: 'mobility' },
+      motobag: { route: 'case', id: 'motobag' },
+      ninjalock: { route: 'case', id: 'ninjalock' },
+      thync: { route: 'case', id: 'thync' },
+      lifesmart: { route: 'case', id: 'lifesmart' },
+      jb_up: { route: 'case', id: 'jawboneup' },
+      jb_era: { route: 'case', id: 'era' },
+      jambox: { route: 'case', id: 'jambox' },
+      independent: { route: 'case', id: 'independent' },
+      soar: { route: 'app', id: 'tokyo3d' },
+      crowdsensus: { route: 'app', id: 'crowdsensus' },
+      riseofsi: { route: 'app', id: 'superintelligence' },
+      flags: { route: 'app', id: 'flagsatlas' },
+    };
+    function parseHash() {
+      const h = (typeof location !== 'undefined' ? location.hash : '').replace(/^#\/?/, '').trim().toLowerCase();
+      if (!h || !SLUGS[h]) return { route: 'home' };
+      return SLUGS[h];
+    }
+    function slugFor(route, caseId, appId) {
+      if (route === 'home') return '';
+      for (const slug in SLUGS) {
+        const s = SLUGS[slug];
+        if (s.route !== route) continue;
+        if (route === 'case') { if (s.id === caseId) return slug; continue; }
+        if (route === 'app') { if (s.id === appId) return slug; continue; }
+        return slug;
+      }
+      return '';
+    }
+
     function App() {
       const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-      const [route, setRoute] = React.useState('home');
-      const [caseId, setCaseId] = React.useState('crosshelmet');
-      const [appId, setAppId] = React.useState('tokyo3d');
+      const __initial = parseHash();
+      const [route, setRoute] = React.useState(__initial.route);
+      const [caseId, setCaseId] = React.useState(__initial.route === 'case' && __initial.id ? __initial.id : 'crosshelmet');
+      const [appId, setAppId] = React.useState(__initial.route === 'app' && __initial.id ? __initial.id : 'tokyo3d');
       // Splash preloader gates the menu: hidden until the first-load preload
       // finishes, then fades in. Starts true on a fresh page load (splash is
       // the default landing); a safety effect clears it if the splash isn't
       // the active landing so the nav can never get stuck hidden.
-      const [splashLoading, setSplashLoading] = React.useState(() => typeof window !== 'undefined' && !window.__splashShown);
-      const go = (r, arg) => { if (r === 'case' && arg) setCaseId(arg); if (r === 'app' && arg) setAppId(arg); setRoute(r); window.scrollTo({ top: 0 }); };
+      const [splashLoading, setSplashLoading] = React.useState(() => typeof window !== 'undefined' && !window.__splashShown && __initial.route === 'home');
+      const go = (r, arg) => {
+        if (r === 'case' && arg) setCaseId(arg);
+        if (r === 'app' && arg) setAppId(arg);
+        setRoute(r);
+        const slug = slugFor(r, r === 'case' ? (arg || caseId) : caseId, r === 'app' ? (arg || appId) : appId);
+        const target = slug ? '#' + slug : '';
+        if (target) { if (location.hash !== target) location.hash = target; }
+        else if (location.hash) { history.pushState('', document.title, location.pathname + location.search); }
+        window.scrollTo({ top: 0 });
+      };
+
+      // Hash slugs keep the route in sync with the URL, so deep-links and the
+      // browser back/forward buttons work — back steps through slug history.
+      React.useEffect(() => {
+        const onHash = () => {
+          const s = parseHash();
+          setRoute(s.route);
+          if (s.route === 'case' && s.id) setCaseId(s.id);
+          if (s.route === 'app' && s.id) setAppId(s.id);
+          window.scrollTo({ top: 0 });
+        };
+        window.addEventListener('hashchange', onHash);
+        return () => window.removeEventListener('hashchange', onHash);
+      }, []);
 
       React.useEffect(() => {
         if (!(route === 'home' && t.hero === 'splash')) setSplashLoading(false);

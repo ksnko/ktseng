@@ -32,19 +32,21 @@ const PROJECTS = [
     blurb: 'A family of connected smart-home devices, designed across the lineup.', tags: ['Smart Home'], status: 'Shipped' },
   { id: 'jawboneup', title: 'Jawbone UP', kind: 'fuseproject', year: '2014', mood: 'cool',
     img: 'images/up3_5.jpg',
+    video: 'uploads/jawboneup.webm',
     gallery: ['images/up3_5.jpg', 'images/up3_7.jpg', 'images/up3_18.jpg', 'images/up2_3.jpg', 'images/move_product2.jpg'],
     blurb: 'The UP family of health trackers: UP3, UP2, and UP Move. Design, prototype, and packaging.', tags: ['Wearable', 'Packaging'], status: 'Shipped' },
   { id: 'era', title: 'Jawbone Era', kind: 'fuseproject', year: '2014', mood: 'mono',
-    img: 'images/era_10.jpg',
-    gallery: ['images/era_10.jpg', 'images/era_11.jpg', 'images/era_2.jpg', 'images/era_brand.jpg'],
+    img: 'images/era_11.jpg',
+    gallery: ['images/era_11.jpg', 'images/era_2.jpg', 'images/era_brand.jpg'],
     blurb: 'A bluetooth earpiece. Design and prototyping on the Jawbone team.', tags: ['Audio', 'Prototype'], status: 'Shipped' },
   { id: 'jambox', title: 'Mini Jambox', kind: 'fuseproject', year: '2013', mood: 'mono',
     img: 'images/jambox_product1.jpg',
     gallery: ['images/jambox_product1.jpg', 'images/jambox_product5.jpg', 'images/jambox_strategy6.jpg'],
     blurb: 'Portable bluetooth speaker. Prototyping on the Jawbone team.', tags: ['Audio', 'Prototype'], status: 'Shipped' },
   { id: 'independent', title: 'Independent', kind: 'Personal · Freelance', year: '2008/11', mood: 'dusk',
-    img: 'images/gs1_1.jpg',
-    gallery: ['images/gs1_1.jpg', 'images/visc_cover.jpg', 'images/visc_renders.jpg'],
+    img: 'images/camera1.jpg',
+    video: 'uploads/camera.webm',
+    gallery: ['images/camera1.jpg', 'images/l_cover.jpg', 'images/l_renders.jpg'],
     blurb: 'A camera and a sculptural light that still hold up. Personal and freelance work.', tags: ['Personal', 'Freelance'], status: 'Personal' },
 ];
 
@@ -186,6 +188,7 @@ function Cover({ p, i, hoverZoom }) {
         // A project with a cover video plays it muted/looping in place; the
         // first gallery thumb is the poster so it's never blank while loading.
         <video src={window.videoSrc ? window.videoSrc(p.video) : p.video} poster={thumb(gallery[0])} autoPlay loop muted playsInline preload="auto"
+          onLoadedMetadata={(e) => { const v = e.target; if (/jawboneup\.webm/i.test(p.video || '') && isFinite(v.duration) && v.currentTime < 0.05) { try { v.currentTime = v.duration * 0.1; } catch (_) {} } }}
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block',
             transform: hoverZoom ? 'scale(1.05)' : 'none', transition: 'transform 500ms var(--ease-out)' }} />
       ) : gallery.map((src, k) => (
@@ -437,7 +440,6 @@ function WorkScreen({ go, workLayout }) {
         </Reveal>
       </div>
       <WorkGrid go={go} layout={workLayout} heading={false} />
-      <PhotoStrip go={go} />
     </div>
   );
 }

@@ -135,6 +135,13 @@ function SplashPanel({ p, state, onClick, onEnter, onHover, onLeave, slantLeft, 
     }
     if (!v || v.readyState < 2) setVideoFailed(true);
   };
+  // Splash clips start 5% into the timeline, then loop normally (wrapping
+  // back to 0). Seek to 5% once the duration is known, for the initial play.
+  const seekToStart = (v) => {
+    if (!v || !isFinite(v.duration) || v.duration <= 0) return;
+    if (v.currentTime > 0.05) return; // only on the initial start, not every loop
+    try { v.currentTime = v.duration * 0.05; } catch (_) {}
+  };
   React.useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -254,6 +261,7 @@ function SplashPanel({ p, state, onClick, onEnter, onHover, onLeave, slantLeft, 
         {p.video && (
           <video ref={videoRef} src={p.video} muted loop playsInline preload="auto"
             onError={onVideoError}
+            onLoadedMetadata={(e) => seekToStart(e.target)}
             onLoadedData={onPrimeFrame}
             onTimeUpdate={onPrimeFrame}
             style={{
@@ -275,10 +283,10 @@ function SplashPanel({ p, state, onClick, onEnter, onHover, onLeave, slantLeft, 
         : 'linear-gradient(to top, rgba(11,13,19,.7) 0%, rgba(11,13,19,.15) 60%, rgba(11,13,19,.35) 100%)',
         transition: 'background 500ms var(--ease-out)' }}></div>
 
-      {/* number marker — hidden on shrunk mobile panels (no room).
+      {/* number marker — desktop only. Hidden entirely on mobile (vertical).
           On desktop the transparent nav overlays the splash full-height, so
           tuck the marker just below it (navClear) and fade it in with the menu. */}
-      {(!vertical || isExp || state === 'idle') && (
+      {!vertical && (
         <span style={{ position: 'absolute', top: (vertical ? (first ? 16 : 'calc(12px + min(5vw, 24px))') : (navClear ? navClear + 20 : 24)), left: (vertical ? 20 : 26) + L, fontFamily: 'var(--font-mono)', fontSize: 13, letterSpacing: '.14em', color: 'rgba(255,255,255,.7)', opacity: loading ? 0 : 1, transition: 'opacity 700ms var(--ease-out)' }}>{p.n}</span>
       )}
 
@@ -309,7 +317,7 @@ function SplashPanel({ p, state, onClick, onEnter, onHover, onLeave, slantLeft, 
         <div className="splash-sat" aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: 6, pointerEvents: 'none', WebkitBackdropFilter: 'grayscale(1) brightness(.92)', backdropFilter: 'grayscale(1) brightness(.92)', clipPath: vertical ? `inset(0 0 0 ${fill * 100}%)` : (menuOffset ? `inset(${menuOffset}px 0 calc(${fill} * (100% - ${menuOffset}px)) 0)` : `inset(0 0 ${fill * 100}% 0)`) }}></div>
       )}
       {firstLoad && (
-        <div className="splash-line" aria-hidden="true" style={vertical ? { position: 'absolute', top: 0, bottom: 0, left: `${fill * 100}%`, width: 2, zIndex: 7, pointerEvents: 'none', background: 'linear-gradient(to bottom, transparent, var(--pop) 25%, var(--pop) 75%, transparent)', boxShadow: '0 0 18px 4px var(--pop)', opacity: fill <= 0.005 || fill >= 0.97 ? 0 : 0.95, transition: 'opacity 220ms linear' } : { position: 'absolute', left: 0, right: 0, bottom: menuOffset ? `calc(${fill} * (100% - ${menuOffset}px))` : `${fill * 100}%`, height: 2, zIndex: 7, pointerEvents: 'none', background: 'linear-gradient(to right, transparent, var(--pop) 25%, var(--pop) 75%, transparent)', boxShadow: '0 0 18px 4px var(--pop)', opacity: fill <= 0.005 || fill >= 0.97 ? 0 : 0.95, transition: 'opacity 220ms linear' }}></div>
+        <div className="splash-line" aria-hidden="true" style={vertical ? { position: 'absolute', top: 0, bottom: 0, left: `${fill * 100}%`, width: 2, zIndex: 7, pointerEvents: 'none', background: 'linear-gradient(to bottom, transparent, var(--pop) 25%, var(--pop) 75%, transparent)', boxShadow: '0 0 18px 4px var(--pop)', opacity: fill <= 0.005 || fill >= 0.999 ? 0 : 0.95, transition: 'opacity 220ms linear' } : { position: 'absolute', left: 0, right: 0, bottom: menuOffset ? `calc(${fill} * (100% - ${menuOffset}px))` : `${fill * 100}%`, height: 2, zIndex: 7, pointerEvents: 'none', background: 'linear-gradient(to right, transparent, var(--pop) 25%, var(--pop) 75%, transparent)', boxShadow: '0 0 18px 4px var(--pop)', opacity: fill <= 0.005 || fill >= 0.999 ? 0 : 0.95, transition: 'opacity 220ms linear' }}></div>
       )}
       </div>
     </div>
@@ -417,10 +425,16 @@ function SplashScreen({ go, topOffset = 67, texture, onLoadingChange }) {
     let raf, d = 0;
     const tick = () => {
       const t = targetRef.current;
-      // ease toward the true target; min step keeps the fill always visible
-      d = Math.min(t, d + Math.max(0.0075, (t - d) * 0.07));
+      const loaded = t >= 1;
+      // Always keep moving. Ease toward real progress; but even when the real
+      // load is fully stalled, creep forward by an asymptotic amount that
+      // shrinks as it nears 100% — so the bar never freezes, it just slows.
+      const goal = loaded ? 1 : t;
+      let step = (goal - d) * (loaded ? 0.12 : 0.08);
+      if (!loaded) step = Math.max(step, (1 - d) * 0.0025);
+      d = Math.min(loaded ? 1 : 0.995, d + step);
       setDisp(d);
-      if (d >= 0.999 && t >= 1) { setDisp(1); setTimeout(() => setLoading(false), 200); return; }
+      if (loaded && d >= 0.999) { setDisp(1); setTimeout(() => setLoading(false), 200); return; }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -473,9 +487,9 @@ function SplashScreen({ go, topOffset = 67, texture, onLoadingChange }) {
   }, [loading]);
   const GAMMA = [1.0, 1.5, 0.72];  // per-section curve (fake "different rates")
   const UNBLUR = [0, 420, 820];    // staggered unblur delays (ms)
-  // When the menu overlays the splash (topOffset 0), push the panel stack
-  // below it on mobile so the first panel is never hidden behind the menu.
-  const navPad = vertical && topOffset === 0 ? NAV_H : 0;
+  // Mobile splash menu is fully transparent, so let the panel stack run the
+  // full viewport height starting under the menu (no top padding).
+  const navPad = 0;
   return (
     <div style={{
       position: 'relative',

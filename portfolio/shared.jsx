@@ -174,7 +174,18 @@ function TopNav({ route, go, inverse = false, overlay = false, showAvailable = t
   };
 
   return (
-    <header style={{
+    <React.Fragment>
+      {/* uniform full-page blur behind the open menu. It sits BELOW the header
+          (z35 < z40), so the logo, burger, and nav links — all inside the
+          header — stay sharp on top. Tap anywhere to close. */}
+      {open && (
+        <div aria-hidden="true" onClick={() => setOpen(false)} style={{
+          position: 'fixed', inset: 0, zIndex: 35,
+          background: dark ? 'rgba(11,13,19,.18)' : 'rgba(247,248,250,.35)',
+          WebkitBackdropFilter: 'blur(24px) saturate(1.3)', backdropFilter: 'blur(24px) saturate(1.3)',
+        }}></div>
+      )}
+      <header className={overlay ? 'topnav topnav--overlay' : 'topnav'} style={{
       position: overlay ? 'fixed' : 'sticky', top: 0, left: 0, right: 0, zIndex: 40,
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '18px var(--gutter)',
@@ -185,7 +196,26 @@ function TopNav({ route, go, inverse = false, overlay = false, showAvailable = t
       pointerEvents: hidden ? 'none' : 'auto',
       transition: 'background 200ms var(--ease-out), border-color 200ms var(--ease-out), opacity 700ms var(--ease-out)',
     }}>
-      <button onClick={() => goClose('home')} style={{ background: 'none', border: 0, cursor: 'pointer', padding: 0 }}>
+      {/* mobile-only gradient backdrop blur: full blur at the top, fading to 0
+          blur at the bottom edge of the menu. A mask on the backdrop-filter
+          layer fades the blur out. Shown only on the splash overlay nav, and
+          only while the menu is closed (open state uses a uniform full-page blur). */}
+      {!open && (
+      <React.Fragment>
+      <div className="topnav-blur" aria-hidden="true" style={{
+        position: 'absolute', inset: 0, zIndex: -1, pointerEvents: 'none',
+        WebkitBackdropFilter: 'blur(14px)', backdropFilter: 'blur(14px)',
+        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+      }}></div>
+      {/* black scrim: 50% at the top fading to 0% at the bottom, for legibility */}
+      <div className="topnav-scrim" aria-hidden="true" style={{
+        position: 'absolute', inset: 0, zIndex: -1, pointerEvents: 'none',
+        background: 'linear-gradient(to bottom, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 100%)',
+      }}></div>
+      </React.Fragment>
+      )}
+      <button onClick={() => goClose('home')} style={{ position: 'relative', zIndex: 50, background: 'none', border: 0, cursor: 'pointer', padding: 0 }}>
         <Wordmark inverse={dark} />
       </button>
 
@@ -226,7 +256,7 @@ function TopNav({ route, go, inverse = false, overlay = false, showAvailable = t
 
       {/* mobile hamburger */}
       <button className="nav-burger" aria-label="Menu" onClick={() => setOpen(o => !o)}
-        style={{ display: 'none', background: 'none', border: 0, cursor: 'pointer', color: fg, padding: 4 }}>
+        style={{ display: 'none', position: 'relative', zIndex: 50, background: 'none', border: 0, cursor: 'pointer', color: fg, padding: 4 }}>
         <i data-lucide={open ? 'x' : 'menu'}></i>
       </button>
 
@@ -234,8 +264,7 @@ function TopNav({ route, go, inverse = false, overlay = false, showAvailable = t
       {open && (
         <div className="nav-sheet" style={{
           position: 'fixed', top: 60, left: 0, right: 0, zIndex: 39,
-          background: dark ? 'rgba(11,13,19,.92)' : 'rgba(247,248,250,.96)',
-          backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--border-faint)',
+          background: 'none',
           padding: '14px var(--gutter) 22px', display: 'flex', flexDirection: 'column', gap: 6,
         }}>
           {NAV.map(n => (
@@ -249,6 +278,7 @@ function TopNav({ route, go, inverse = false, overlay = false, showAvailable = t
         </div>
       )}
     </header>
+    </React.Fragment>
   );
 }
 
