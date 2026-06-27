@@ -121,26 +121,26 @@ function GalleryScreen({ layout = 'masonry', go }) {
   return (
     <div>
       <section style={{ padding: 'clamp(20px,3vw,40px) var(--gutter) var(--space-7)', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
-        <Reveal><Eyebrow>Moments · film & photography</Eyebrow></Reveal>
+        <Reveal><Eyebrow>Moments · photos & videos</Eyebrow></Reveal>
         <Reveal delay={60}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 20, marginTop: 12 }}>
-            <h1 style={{ fontSize: 'clamp(34px,5vw,60px)', letterSpacing: '-0.03em', maxWidth: 640 }}>
-              Moments<span style={{ color: 'var(--pop)' }}>.</span>
-            </h1>
-            <Tabs value={filter} onChange={setFilter} items={FILTERS} variant="pill" />
-          </div>
+          <h1 style={{ fontSize: 'clamp(34px,5vw,60px)', letterSpacing: '-0.03em', maxWidth: 640, marginTop: 12 }}>
+            Moments<span style={{ color: 'var(--pop)' }}>.</span>
+          </h1>
         </Reveal>
       </section>
-      <section style={{ padding: '0 var(--gutter) var(--space-8)', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
+      <section style={{ padding: '0 var(--gutter) var(--space-10)', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
         <Reveal>
-          <Eyebrow>Film</Eyebrow>
+          <Eyebrow>Photos</Eyebrow>
+          <div style={{ marginTop: 12 }}>{grid}</div>
+        </Reveal>
+      </section>
+      <section style={{ padding: '0 var(--gutter) var(--space-10)', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
+        <Reveal>
+          <Eyebrow>Videos</Eyebrow>
           <div style={{ position: 'relative', aspectRatio: '16/9', borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: 'var(--shadow-lg)', background: 'var(--slate-950)', marginTop: 12 }}>
             <iframe src="https://player.vimeo.com/video/241553532?dnt=1" title="film by kevin tseng" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}></iframe>
           </div>
         </Reveal>
-      </section>
-      <section style={{ padding: '0 var(--gutter) var(--space-10)', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
-        <Reveal>{grid}</Reveal>
       </section>
       <Lightbox shot={open} onClose={() => setOpenId(null)} onNav={nav} list={list} />
     </div>
