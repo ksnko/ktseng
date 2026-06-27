@@ -8,11 +8,17 @@
 const G_IMG = 'images/moments/';
 const SHOTS = [
   { id: 1, src: G_IMG + 'DSC00174b-scaled.jpg', cat: 'digital' },
-  { id: 2, src: G_IMG + '00010022b-scaled.jpg', cat: 'film' },
-  { id: 3, src: G_IMG + '00010006b-scaled.jpg', cat: 'film' },
-  { id: 4, src: G_IMG + '00010001b-scaled.jpg', cat: 'film' },
-  { id: 5, src: G_IMG + 'DSC09513b-scaled.jpg', cat: 'digital' },
-  { id: 6, src: G_IMG + 'DSC05971s2.jpg', cat: 'digital' },
+  { id: 2, src: G_IMG + '00010001b-scaled.jpg', cat: 'film' },
+  { id: 3, src: G_IMG + 'DSC05971s2.jpg', cat: 'digital' },
+  { id: 4, src: G_IMG + '00010006b-scaled.jpg', cat: 'film' },
+  { id: 5, src: G_IMG + 'vatican.jpg', cat: 'digital' },
+  { id: 6, src: G_IMG + '00010022b-scaled.jpg', cat: 'film' },
+  { id: 7, src: G_IMG + 'fireworks.jpg', cat: 'digital' },
+  { id: 8, src: G_IMG + 'DSC09320b-scaled.jpg', cat: 'film' },
+  { id: 9, src: G_IMG + 'singapore2.jpg', cat: 'digital' },
+  { id: 10, src: G_IMG + 'P1170679.jpg', cat: 'digital' },
+  { id: 11, src: G_IMG + 'DSC09513b-scaled.jpg', cat: 'film' },
+  { id: 12, src: G_IMG + 'jinja.jpg', cat: 'digital' },
 ];
 
 const FILTERS = [
@@ -26,6 +32,7 @@ function Lightbox({ shot, onClose, onNav, list }) {
     const h = (e) => { if (e.key === 'Escape') onClose(); if (e.key === 'ArrowRight') onNav(1); if (e.key === 'ArrowLeft') onNav(-1); };
     window.addEventListener('keydown', h); return () => window.removeEventListener('keydown', h);
   }, [shot]);
+  React.useEffect(() => { if (shot && window.lucide) window.lucide.createIcons(); }, [shot]);
   if (!shot) return null;
   const pos = list.findIndex(s => s.id === shot.id);
   return (
@@ -51,7 +58,6 @@ function GalleryTile({ s, onClick, style, imgStyle, onAr }) {
       <img src={s.src} alt={'photograph ' + s.id} loading="eager" decoding="sync"
         onLoad={onAr ? (e) => onAr(s.id, e.target.naturalWidth / e.target.naturalHeight) : undefined}
         style={{ width: '100%', display: 'block', ...imgStyle }} />
-      <span style={{ position: 'absolute', top: 10, left: 12, fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '.1em', color: 'rgba(255,255,255,.85)', textShadow: '0 1px 8px rgba(11,13,19,.5)' }}>{String(s.id).padStart(2, '0')}</span>
     </div>
   );
 }
@@ -69,7 +75,7 @@ function justifyRows(list, ars, targetW = 1180, rowH = 300, gap = 12) {
   return rows;
 }
 
-function GalleryScreen({ layout = 'masonry' }) {
+function GalleryScreen({ layout = 'masonry', go }) {
   const [filter, setFilter] = React.useState('all');
   const [openId, setOpenId] = React.useState(null);
   const [ars, setArs] = React.useState({});
@@ -133,7 +139,7 @@ function GalleryScreen({ layout = 'masonry' }) {
           </div>
         </Reveal>
       </section>
-      <section style={{ padding: '0 var(--gutter) var(--space-12)', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
+      <section style={{ padding: '0 var(--gutter) var(--space-10)', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
         <Reveal>{grid}</Reveal>
       </section>
       <Lightbox shot={open} onClose={() => setOpenId(null)} onNav={nav} list={list} />

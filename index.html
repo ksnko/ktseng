@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kevin tseng · portfolio</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#4B3DFF">
 <script>
   // ResizeObserver hygiene: deliver all callbacks on the next animation frame
   // so layout mutations inside callbacks can't trigger the benign-but-noisy
@@ -120,14 +125,15 @@
   <script src="_ds/ktseng-design-system-087052e6-1751-4ca4-93c7-2cccbfab9ef6/_ds_bundle.js"></script>
 
   <script type="text/babel" src="portfolio/tweaks-panel.jsx?v=31"></script>
-  <script type="text/babel" src="portfolio/shared.jsx?v=41"></script>
-  <script type="text/babel" src="portfolio/SplashScreen.jsx?v=66"></script>
-  <script type="text/babel" src="portfolio/HomeScreen.jsx?v=46"></script>
-  <script type="text/babel" src="portfolio/GalleryScreen.jsx?v=36"></script>
-  <script type="text/babel" src="portfolio/CaseStudyScreen.jsx?v=45"></script>
-  <script type="text/babel" src="portfolio/AppsScreen.jsx?v=48"></script>
-  <script type="text/babel" src="portfolio/BookFlip.jsx?v=31"></script>
-  <script type="text/babel" src="portfolio/AppDetailScreen.jsx?v=56"></script>
+  <script type="text/babel" src="portfolio/shared.jsx?v=42"></script>
+  <script type="text/babel" src="portfolio/SplashScreen.jsx?v=68"></script>
+  <script type="text/babel" src="portfolio/HomeScreen.jsx?v=51"></script>
+  <script type="text/babel" src="portfolio/GalleryScreen.jsx?v=49"></script>
+  <script type="text/babel" src="portfolio/CeramicsScreen.jsx?v=4"></script>
+  <script type="text/babel" src="portfolio/CaseStudyScreen.jsx?v=56"></script>
+  <script type="text/babel" src="portfolio/AppsScreen.jsx?v=49"></script>
+  <script type="text/babel" src="portfolio/BookFlip.jsx?v=32"></script>
+  <script type="text/babel" src="portfolio/AppDetailScreen.jsx?v=57"></script>
   <script type="text/babel" src="portfolio/AboutScreen.jsx?v=45"></script>
 
   <script type="text/babel" data-presets="react">
@@ -155,6 +161,7 @@
       design: { route: 'work' },
       ai: { route: 'apps' },
       moments: { route: 'gallery' },
+      ceramics: { route: 'ceramics' },
       about: { route: 'about' },
       crosshelmet: { route: 'case', id: 'crosshelmet' },
       mobility: { route: 'case', id: 'mobility' },
@@ -245,7 +252,8 @@
                 ? <SplashScreen go={go} topOffset={overlay ? 0 : 67} onLoadingChange={setSplashLoading} texture={{ pattern: t.texPattern, size: t.texSize, strength: t.texStrength, angle: t.texAngle, ink: t.texInk, scope: t.texScope }} />
                 : <HomeScreen go={go} hero={t.hero} setHero={(h) => setTweak('hero', h)} workLayout={t.workLayout} />)}
               {route === 'work' && <WorkScreen go={go} workLayout={t.workLayout} />}
-              {route === 'gallery' && <GalleryScreen layout={t.galleryLayout} />}
+              {route === 'gallery' && <GalleryScreen layout={t.galleryLayout} go={go} />}
+              {route === 'ceramics' && <CeramicsScreen go={go} />}
               {route === 'case' && <CaseStudyScreen go={go} id={caseId} />}
               {route === 'apps' && <AppsScreen go={go} />}
               {route === 'app' && <AppDetailScreen go={go} id={appId} />}

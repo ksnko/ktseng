@@ -14,7 +14,7 @@ const CASES = {
     body: 'I worked across the entire product experience, from industrial design and app UI to crowdfunding campaigns, graphics, packaging, web services, and social media.',
     meta: [['Role', 'Senior ID / Officer'], ['Years', '2017 — 2023'], ['Studio', 'Borderless, Tokyo'], ['Tools', 'Rhino, Keyshot'], ['Output', 'Helmet · App · Packaging']],
     video: '544499028',
-    heroVideo: 'uploads/ridingbeyond.webm',
+    heroVideo: 'images/ridingbeyond.webm',
     slides: [
       { t: 'App UI', img: J('ch_appui.jpg') },
       { t: 'Firmware UI', img: J('ch_fwui.jpg') },
@@ -29,18 +29,18 @@ const CASES = {
   jawboneup: {
     title: 'Jawbone UP', tag: 'fuseproject · Wearables',
     hero: J('up3_5.jpg'),
-    heroVideo: 'uploads/jawboneup.webm',
+    heroVideo: 'images/jawboneup.webm',
     overview: 'The UP family of health trackers.\nDesign, prototyping, and packaging on the Jawbone team at fuseproject.',
     meta: [['Role', 'Industrial Designer'], ['Year', '2014'], ['Studio', 'fuseproject, SF'], ['Output', 'UP3 · UP2 · UP Move']],
     sections: [
       { t: 'UP3 · 2014', body: 'Health-tracking wristband. Design, prototype, and packaging.', slideshow: true, images: [
-        J('up3_14.jpg'), J('up3_8.jpg'), J('up3_18.jpg'), J('up3_6.jpg'), J('up3_7.jpg'),
+        J('up3_5.jpg'), J('up3_6.jpg'), J('up3_7.jpg'), J('up3_8.jpg'), J('up3_9.jpg'), J('up3_14.jpg'), J('up3_15.jpg'), J('up3_16.jpg'), J('up3_18.jpg'), J('up3_19.jpg'), J('up3_20.jpg'),
       ] },
       { t: 'UP2 · 2014', body: 'Health-tracking wristband. Design, prototype, and packaging.', slideshow: true, images: [
-        J('up2_3.jpg'), J('up2_9.jpg'), J('up2_14.jpg'), J('up2_13.jpg'), J('up2_11.jpg'), J('up2_12.jpg'),
+        J('up2_3.jpg'), J('up2_4.jpg'), J('up2_9.jpg'), J('up2_11.jpg'), J('up2_12.jpg'), J('up2_13.jpg'), J('up2_13b.jpg'), J('up2_14.jpg'),
       ] },
       { t: 'UP Move · 2014', body: 'Miniature step-counter. Design, prototype, and packaging.', slideshow: true, images: [
-        J('move_brand1.jpg'), J('move_product2.jpg'), J('move_0.jpg'), J('move_product3.jpg'), J('move_brand3.jpg'), J('move_product9.jpg'), J('move_product6.jpg'),
+        J('move_1.jpg'), J('move_2.jpg'), J('move_3.jpg'), J('move_4.jpg'), J('move_5.jpg'), J('move_6.jpg'), J('move_7.jpg'),
       ] },
     ],
   },
@@ -56,14 +56,19 @@ const CASES = {
     hero: J('nl3_exploded.jpg'),
     overview: 'A smart, connected door lock. Designed and prototyped for client, Linough.',
     meta: [['Role', 'Senior ID'], ['Year', '2019'], ['Studio', 'Borderless, Tokyo'], ['Output', 'Lock · Prototype']],
-    images: ['uploads/ninjalock.webm', J('nl3_aligned.jpg')],
+    images: ['images/ninjalock.webm', J('nl3_aligned.jpg')],
   },
   motobag: {
     title: 'Motorcycle Bag', tag: 'Borderless · Softgoods',
-    hero: J('bag_1.jpg'),
+    hero: J('tribag_1.jpg'),
     overview: 'A modular bag system for motorcyclists. Design and prototype at Borderless, Tokyo.',
     meta: [['Role', 'Senior ID'], ['Year', '2019'], ['Studio', 'Borderless, Tokyo'], ['Output', 'Bag system · Prototype']],
-    images: [J('bag_2.jpg'), J('bag_3.jpg'), J('bag_buckle.jpg'), J('bag_4.jpg')],
+    sections: [
+      { t: 'Split Bag', slideshow: true,
+        images: [J('splitbag_1.jpg'), J('splitbag_2.jpg'), J('splitbag_3.jpg'), J('splitbag_4.jpg')] },
+      { t: 'Tri Bag', slideshow: true,
+        images: [J('tribag_1.jpg'), J('tribag_2.jpg'), J('tribag_3.jpg'), J('tribag_4.jpg')] },
+    ],
   },
   jambox: {
     title: 'Mini Jambox', tag: 'fuseproject · Audio',
@@ -75,12 +80,12 @@ const CASES = {
   mobility: {
     title: 'Personal Mobility', tag: 'Borderless · Concept',
     hero: J('mob_2.jpg'),
-    heroVideo: 'uploads/mobilityturntable.webm',
+    heroVideo: 'images/mobilityturntable.webm',
     overview: 'Personal mobility for an undisclosed client. Experience design and rendering.',
     meta: [['Role', 'Senior ID'], ['Year', '2019'], ['Studio', 'Borderless, Tokyo'], ['Output', 'Concept · Renders']],
     images: [J('mob_2.jpg'), J('mob_1.jpg')],
     sections: [
-      { t: 'Dashboard Interface', images: ['uploads/mobilityux.webm'] },
+      { t: 'Dashboard Interface', images: ['images/mobilityux.webm'] },
     ],
   },
   thync: {
@@ -89,10 +94,10 @@ const CASES = {
     overview: 'A brain stimulation device and its charging case, explored across a family of forms and finishes.',
     meta: [['Role', 'Senior ID'], ['Year', '2016'], ['Studio', 'Branch'], ['Output', 'Device · Case · CMF']],
     sections: [
-      { t: 'The case', body: 'A charging case for the wearable: closed, open, and exploded.', cols: 2,
-        images: [J('thync_caseopened.jpg'), J('thync_caseclosed.jpg'), J('thync_caseexploded.jpg'), J('thync_casecontext.jpg'), J('thync_casecontextdesk.jpg')] },
-      { t: 'Finishes', body: 'A range of color and material directions.', cols: 2,
-        images: [J('thync_blue.jpg'), J('thync_champagne.jpg'), J('thync_graphite.jpg'), J('thync_volcano.jpg'), J('thync_wine.jpg'), J('thync_wine2.jpg'), J('thync_fade.jpg'), J('thync_fog.jpg')] },
+      { t: 'The case', body: 'A charging case for the wearable: closed, open, and exploded.', slideshow: true,
+        images: [J('thync_caseclosed.jpg'), J('thync_caseopened.jpg'), J('thync_caseexploded.jpg'), J('thync_casecontext.jpg'), J('thync_caseopencontext.jpg'), J('thync_casecontextdesk.jpg')] },
+      { t: 'Finishes', body: 'A range of color and material directions.', slideshow: true,
+        images: [J('thync_blue.jpg'), J('thync_champagne.jpg'), J('thync_graphite.jpg'), J('thync_wine.jpg'), J('thync_wine2.jpg'), J('thync_fog.jpg'), J('thync_volcano.jpg'), J('thync_fade.jpg')] },
     ],
   },
   lifesmart: {
@@ -112,7 +117,7 @@ const CASES = {
   independent: {
     title: 'Independent', tag: 'Personal · Freelance',
     hero: J('camera1.jpg'),
-    heroVideo: 'uploads/camera.webm',
+    heroVideo: 'images/camera.webm',
     overview: 'Personal and freelance work pre-2011.\n',
     meta: [['Type', 'Personal · Freelance'], ['Years', '2008 — 2011'], ['Projects', '5']],
     sections: [
@@ -262,10 +267,10 @@ function CaseStudyScreen({ go, id = 'crosshelmet' }) {
         <button onClick={() => go('work')} style={{ background: 'none', border: 0, cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
           <i data-lucide="arrow-left"></i> back to work
         </button>
-        <div style={{ position: 'relative', ...(c.heroVideo ? {} : { height: 'min(56vh, 460px)' }), borderRadius: 'var(--radius-2xl)', overflow: 'hidden', background: 'var(--slate-100)' }}>
+        <div style={{ position: 'relative', borderRadius: 'var(--radius-2xl)', overflow: 'hidden', background: 'var(--slate-100)' }}>
           {c.heroVideo
             ? <video src={window.videoSrc ? window.videoSrc(c.heroVideo) : c.heroVideo} poster={(window.__videoPosters || {})[c.heroVideo]} autoPlay loop muted playsInline preload="auto" onLoadedMetadata={(e) => { const v = e.target; if (/jawboneup\.webm/i.test(c.heroVideo || '') && isFinite(v.duration) && v.currentTime < 0.05) { try { v.currentTime = v.duration * 0.1; } catch (_) {} } }} style={{ display: 'block', width: '100%', height: 'auto' }}></video>
-            : <img src={cimg(c.hero)} alt={c.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
+            : <img src={cimg(c.hero)} alt={c.title} style={{ display: 'block', width: '100%', height: 'auto' }} />}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,13,19,.55), transparent 60%)' }}></div>
           <div style={{ position: 'absolute', bottom: 0, padding: 'clamp(24px,4vw,48px)' }}>
             <h1 style={{ color: '#fff', fontSize: 'clamp(36px,5.5vw,68px)', letterSpacing: '-0.03em', marginTop: 14, lineHeight: 1 }}>{c.title}</h1>

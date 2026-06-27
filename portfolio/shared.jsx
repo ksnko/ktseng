@@ -126,7 +126,7 @@ function TopNav({ route, go, inverse = false, overlay = false, showAvailable = t
   const navRef = React.useRef(null);
   const btnRefs = React.useRef({});
   const activeNav = NAV.find(n => route === n.id
-    || (n.id === 'work' && route === 'case')
+    || (n.id === 'work' && (route === 'case' || route === 'ceramics'))
     || (n.id === 'apps' && route === 'app'));
   const activeId = activeNav ? activeNav.id : null;
   const [navHover, setNavHover] = React.useState(false);

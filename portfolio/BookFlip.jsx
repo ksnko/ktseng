@@ -17,7 +17,7 @@ function BookFlip() {
             <ul className="hardcover_front">
               <li>
                 <div className="coverDesign blue">
-                  <img src="uploads/00.png" alt="The Rise of Superintelligence" width="360" />
+                  <img src="images/00.png" alt="The Rise of Superintelligence" width="360" />
                 </div>
               </li>
               <li></li>
@@ -26,9 +26,9 @@ function BookFlip() {
             {/* Pages */}
             <ul className="page">
               <li></li>
-              <li><img src="uploads/05.png" alt="" width="355" height="490" style={{ transform: 'translateZ(.1px)' }} /></li>
-              <li><img src="uploads/s02.png" alt="" width="355" height="490" style={{ transform: 'translateZ(.1px)' }} /><img src="uploads/04.png" alt="" width="355" height="490" style={{ position: 'absolute', transform: 'translateZ(-.1px) translateX(-355px) rotateY(180deg)' }} /></li>
-              <li><img src="uploads/01.png" alt="" width="355" height="490" style={{ transform: 'translateZ(.1px)' }} /><img src="uploads/s01.png" alt="" width="355" height="490" style={{ position: 'absolute', transform: 'translateZ(-.1px) translateX(-355px) rotateY(180deg)' }} /></li>
+              <li><img src="images/05.png" alt="" width="355" height="490" style={{ transform: 'translateZ(.1px)' }} /></li>
+              <li><img src="images/s02.png" alt="" width="355" height="490" style={{ transform: 'translateZ(.1px)' }} /><img src="images/04.png" alt="" width="355" height="490" style={{ position: 'absolute', transform: 'translateZ(-.1px) translateX(-355px) rotateY(180deg)' }} /></li>
+              <li><img src="images/01.png" alt="" width="355" height="490" style={{ transform: 'translateZ(.1px)' }} /><img src="images/s01.png" alt="" width="355" height="490" style={{ position: 'absolute', transform: 'translateZ(-.1px) translateX(-355px) rotateY(180deg)' }} /></li>
             </ul>
             {/* Back */}
             <ul className="hardcover_back">

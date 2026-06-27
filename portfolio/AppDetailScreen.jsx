@@ -50,7 +50,7 @@ const APP_DETAILS = {
     ],
     stack: ['Next', 'D3'],
     launch: 'Open the Atlas',
-    hero: { mood: 'dusk', image: 'uploads/flagsatlas.png', caption: 'reflect · then read the world’s reply' },
+    hero: { mood: 'dusk', image: 'images/flagsatlas.png', caption: 'reflect · then read the world’s reply' },
     aside: {
       title: 'How it works',
       type: 'list',
@@ -75,7 +75,7 @@ const APP_DETAILS = {
     stack: ['Chrome MV3', 'Gemini', 'Polymarket'],
     launch: 'Coming to the Chrome Web Store',
     launchDisabled: true,
-    hero: { mood: 'sky', image: 'uploads/crowdsensus3-86a5ea93.png', aspect: '2922 / 1844', fit: 'cover', caption: 'highlight · then see the crowd' },
+    hero: { mood: 'sky', image: 'images/crowdsensus3-86a5ea93.png', aspect: '2922 / 1844', fit: 'cover', caption: 'highlight · then see the crowd' },
     aside: {
       title: 'How it works',
       type: 'list',
@@ -101,7 +101,7 @@ const APP_DETAILS = {
       { label: 'Buy on Amazon', url: 'https://freedomseries.ai/riseofsi', variant: 'primary' },
       { label: 'Read online', url: 'https://www.freedomseries.ai/theriseofsuperintelligence', variant: 'secondary' },
     ],
-    hero: { mood: 'dusk', image: 'uploads/bookdisplay.png', aspect: '1200 / 800', fit: 'cover', caption: 'a guidebook for human emancipation in the age of AGI' },
+    hero: { mood: 'dusk', image: 'images/bookdisplay.png', aspect: '1200 / 800', fit: 'cover', caption: 'a guidebook for human emancipation in the age of AGI' },
     book3d: true,
     aside: {
       title: 'The work',
@@ -284,7 +284,7 @@ function appAssets(id) {
   const all = [];
   let hero = null;
   if (a.hero && a.hero.image) { hero = a.hero.image; all.push(hero); }
-  if (a.book3d) ['00', '01', '02', '03', '04', '05', 's01', 's02'].forEach(n => all.push('uploads/' + n + '.png'));
+  if (a.book3d) ['00', '01', '02', '03', '04', '05', 's01', 's02'].forEach(n => all.push('images/' + n + '.png'));
   return { hero, all: Array.from(new Set(all)), video: (a.hero && a.hero.video) || null };
 }
 

@@ -362,11 +362,11 @@ function SplashScreen({ go, topOffset = 67, texture, onLoadingChange }) {
     const MOMENTS = 'images/moments/';
     const PAGE_ASSETS = [
       // work — project card thumbnails (1000px decode-light versions)
-      'images/thumbs/ch_a.jpg', 'images/thumbs/mob_2.jpg', 'images/thumbs/bag_1.jpg', 'images/thumbs/nl3_exploded.jpg',
+      'images/thumbs/ch_a.jpg', 'images/thumbs/mob_2.jpg', 'images/thumbs/splitbag_2.jpg', 'images/thumbs/nl3_exploded.jpg',
       'images/thumbs/thync_caseopened.jpg', 'images/thumbs/ls_blineup.jpg', 'images/thumbs/up3_5.jpg',
       'images/thumbs/era_10.jpg', 'images/thumbs/jambox_product1.jpg', 'images/thumbs/gs1_1.jpg',
       // ai_labo — app banners (Soar reuses the splash video apps_vid.webm)
-      'uploads/crowdsensus.png', 'uploads/cover.webm', 'uploads/flagsatlas.webm',
+      'images/crowdsensus.png', 'images/cover.webm', 'images/flagsatlas.webm',
       // about — portrait
       'images/portrait.png',
       // moments — gallery grid

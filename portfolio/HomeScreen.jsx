@@ -7,7 +7,7 @@ const IMG = 'https://ktseng.com/wp-content/uploads/';
 const PROJECTS = [
   { id: 'crosshelmet', title: 'CrossHelmet', kind: 'Borderless', year: '2017/23', mood: 'steel',
     img: 'images/ch_a.jpg',
-    video: 'uploads/ridingbeyond.webm',
+    video: 'images/ridingbeyond.webm',
     gallery: ['images/ch_a.jpg', 'images/ch_b.jpg', 'images/ch_c.jpg', 'images/ch_appui.jpg', 'images/ch_packaging.jpg'],
     blurb: 'An industry-first smart motorcycle helmet. Design, UX, packaging, and the crowdfunding campaigns that launched it.', tags: ['Design', 'UX', 'Packaging'], status: 'Shipped' },
   { id: 'mobility', title: 'Personal Mobility', kind: 'Borderless', year: '2019', mood: 'forest',
@@ -15,8 +15,8 @@ const PROJECTS = [
     gallery: ['images/mob_2.jpg', 'images/mob_1.jpg'],
     blurb: 'Experience design and rendering for an undisclosed client.', tags: ['Mobility', 'Concept'], status: 'Concept' },
   { id: 'motobag', title: 'Motorcycle Bag', kind: 'Borderless', year: '2019', mood: 'dusk',
-    img: 'images/bag_1.jpg',
-    gallery: ['images/bag_1.jpg', 'images/bag_buckle.jpg'],
+    img: 'images/splitbag_2.jpg',
+    gallery: ['images/splitbag_2.jpg', 'images/splitbag_1.jpg', 'images/tribag_1.jpg', 'images/tribag_4.jpg'],
     blurb: 'Modular bag for motorcyclists. Design and prototype.', tags: ['Softgoods'], status: 'Shipped' },
   { id: 'ninjalock', title: 'Ninja Lock 3', kind: 'Borderless', year: '2019', mood: 'sky',
     img: 'images/nl3_exploded.jpg',
@@ -32,8 +32,8 @@ const PROJECTS = [
     blurb: 'A family of connected smart-home devices, designed across the lineup.', tags: ['Smart Home'], status: 'Shipped' },
   { id: 'jawboneup', title: 'Jawbone UP', kind: 'fuseproject', year: '2014', mood: 'cool',
     img: 'images/up3_5.jpg',
-    video: 'uploads/jawboneup.webm',
-    gallery: ['images/up3_5.jpg', 'images/up3_7.jpg', 'images/up3_18.jpg', 'images/up2_3.jpg', 'images/move_product2.jpg'],
+    video: 'images/jawboneup.webm',
+    gallery: ['images/up3_5.jpg', 'images/up3_7.jpg', 'images/up3_18.jpg', 'images/up2_3.jpg', 'images/move_2.jpg'],
     blurb: 'The UP family of health trackers: UP3, UP2, and UP Move. Design, prototype, and packaging.', tags: ['Wearable', 'Packaging'], status: 'Shipped' },
   { id: 'era', title: 'Jawbone Era', kind: 'fuseproject', year: '2014', mood: 'mono',
     img: 'images/era_11.jpg',
@@ -45,7 +45,7 @@ const PROJECTS = [
     blurb: 'Portable bluetooth speaker. Prototyping on the Jawbone team.', tags: ['Audio', 'Prototype'], status: 'Shipped' },
   { id: 'independent', title: 'Independent', kind: 'Personal · Freelance', year: '2008/11', mood: 'dusk',
     img: 'images/camera1.jpg',
-    video: 'uploads/camera.webm',
+    video: 'images/camera.webm',
     gallery: ['images/camera1.jpg', 'images/l_cover.jpg', 'images/l_renders.jpg'],
     blurb: 'A camera and a sculptural light that still hold up. Personal and freelance work.', tags: ['Personal', 'Freelance'], status: 'Personal' },
 ];
@@ -428,6 +428,50 @@ function HomeScreen({ go, hero, setHero, workLayout }) {
   );
 }
 
+/* ---- Ceramics lead-in — sits at the bottom of Work -------------------
+   Structural styles (grid, radius, bg, media box) live in the .cer-leadin
+   CSS class, NOT inline: tileTransition clones this node and resets the
+   clone's style.cssText, which would otherwise strip the inline grid and
+   collapse the panels (clipping the image out of the magnify frame). */
+const cerLeadImg = (s) => (window.__imgCache && window.__imgCache[s]) || s;
+function prepareCeramics() {
+  const stills = (window.CERAMICS || []).filter(s => !/\.(webm|mp4)(\?|$)/i.test(s));
+  if (stills.length && window.warmImages) return window.warmImages(stills, true);
+  return Promise.resolve();
+}
+function CeramicsLeadIn({ go }) {
+  const [hover, setHover] = React.useState(false);
+  return (
+    <section style={{ padding: 'var(--space-7) var(--gutter) var(--space-12)', maxWidth: 'var(--container)', margin: '0 auto' }}>
+      <Reveal>
+        <div onClick={(e) => (window.tileTransition ? window.tileTransition(e, { prepare: prepareCeramics, navigate: () => go('ceramics') }) : go('ceramics'))}
+          onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+          className="cer-leadin"
+          style={{ cursor: 'pointer', boxShadow: hover ? 'var(--shadow-lg)' : 'var(--shadow-md)', transition: 'box-shadow 220ms var(--ease-out)' }}>
+          <div style={{ padding: 'clamp(28px,4vw,52px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 28 }}>
+            <div>
+              <h2 style={{ color: '#fff', fontSize: 'clamp(30px,4vw,52px)', letterSpacing: '-0.03em', lineHeight: 1.0 }}>Ceramics<span style={{ color: 'var(--pop)' }}>.</span></h2>
+              <p style={{ fontSize: 16, color: 'rgba(255,255,255,.7)', lineHeight: 1.6, marginTop: 14, maxWidth: 460 }}>I've always enjoyed making things with my hands, and ceramics has always felt like a natural extension of product design. A showcase of my progress and selected ceramic pieces.</p>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 22, fontFamily: 'var(--font-mono)', fontSize: 13, color: '#fff' }}>
+                View the collection <i data-lucide="arrow-right" style={{ transform: hover ? 'translateX(4px)' : 'none', transition: 'transform 200ms var(--ease-out)' }}></i>
+              </span>
+            </div>
+          </div>
+          <div className="cer-leadin-media">
+            <img src={cerLeadImg('images/ceramics/clean2.jpg')} alt="ceramic bowls" loading="eager"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transform: hover ? 'scale(1.05)' : 'none', transition: 'transform 600ms var(--ease-out)' }} />
+          </div>
+        </div>
+      </Reveal>
+      <style>{`
+        .cer-leadin{ display:grid; grid-template-columns:1fr 0.9fr; align-items:stretch; border-radius: var(--radius-2xl); overflow:hidden; background: var(--surface-inverse, #11141C); color:#fff; }
+        .cer-leadin-media{ position:relative; overflow:hidden; min-height:240px; background: var(--slate-800); }
+        @media (max-width: 720px){ .cer-leadin { grid-template-columns: 1fr !important; } .cer-leadin-media { min-height: 220px !important; order: -1; } }
+      `}</style>
+    </section>
+  );
+}
+
 function WorkScreen({ go, workLayout }) {
   return (
     <div style={{ paddingTop: 'clamp(20px,3vw,40px)' }}>
@@ -440,6 +484,7 @@ function WorkScreen({ go, workLayout }) {
         </Reveal>
       </div>
       <WorkGrid go={go} layout={workLayout} heading={false} />
+      <CeramicsLeadIn go={go} />
     </div>
   );
 }
